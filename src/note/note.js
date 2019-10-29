@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom'
-import '.Note.css'
+import './note.css'
 
 class Note extends React.Component {
 

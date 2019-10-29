@@ -5,6 +5,7 @@ import FolderList from './folderList/folderList.js'
 import NoteList from './noteList/noteList.js'
 import AddNote from './addNoteForm/addNoteForm.js'
 import AddFolder from './addFolderForm/addFolderForm.js'
+import Note from './note/note.js'
 import './App.css';
 
 class App extends React.Component {
@@ -59,6 +60,8 @@ class App extends React.Component {
                   notes={this.state.notes} 
                 />}
               />
+            <Route exact path="/add-note" component={AddNote} />
+            <Route exact path="/add-folder" component={AddFolder} />
             <Route 
               exact 
               path="/note/:noteId"
@@ -67,8 +70,6 @@ class App extends React.Component {
                   notes={this.state.notes}
                 />}
               /> 
-            <Route exact path="/add-note" component={AddNote} />
-            <Route exact path="/add-folder" component={AddFolder} />
           </div> 
         </main>
         </div>
