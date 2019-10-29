@@ -10,6 +10,8 @@ class NoteList extends React.Component {
 
     render() {
 
+
+
         const notes = this.props.notes
             .map(
             (note, i) => <li className="noteItem" id={note.id} key={i}>
@@ -34,8 +36,10 @@ class NoteList extends React.Component {
                 <Link to={'/add-note'} className="addNoteButton">
                     Add Note
                     </Link>
+
                 
             </div>
+
         );
     }
 } 

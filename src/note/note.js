@@ -7,16 +7,23 @@ class Note extends React.Component {
 
     render() {
 
+        const note = this.props.note;
+
 
 
         return(
             <div className="main_note">
                 <div className="noteHeader">
-                    Note, date modified, remove button
+                    <h2>{note.name}</h2>
+
                 </div>
                 <div className="noteContent">
-                    Content
+                    {note.content}
                 </div>
+                <p>{note.modified}</p>
+                <button className="deleteButton">
+                    Remove
+                </button>
             </div>
         )
     }

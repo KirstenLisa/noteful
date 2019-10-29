@@ -19,11 +19,9 @@ class App extends React.Component {
   }
   
  
-  
 
   render() {
 
-    
 
 
   return (
@@ -63,13 +61,18 @@ class App extends React.Component {
             <Route exact path="/add-note" component={AddNote} />
             <Route exact path="/add-folder" component={AddFolder} />
             <Route 
-              exact 
-              path="/note/:noteId"
-              render={() =>
-                <Note
-                  notes={this.state.notes}
-                />}
-              /> 
+                    exact 
+                    path="/note/:noteId"
+                    render={routeProps => {
+                      const noteId = routeProps.match.params.noteId;
+                      const note = this.state.notes.find(note => note.id === noteId);
+                      return <Note {...routeProps} note={note}
+                      />}
+                        
+                    }
+                />
+           
+    
           </div> 
         </main>
         </div>
