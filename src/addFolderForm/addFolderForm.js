@@ -13,8 +13,14 @@ class AddFolder extends React.Component {
                     Create a Folder
                 </h1>
 
-                <div className="backButton">
-                    Comp back button
+                <div className="addFolderButtons">
+                    <button type='button' onClick={this.props.onClickBack}>
+                        Back
+                    </button>
+           
+                    <button type='submit'>
+                            Save
+                    </button>
                 </div>
             </div>
         )

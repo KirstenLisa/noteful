@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
-import Note from '../note/note.js';
 import './noteList.css'
 
 class NoteList extends React.Component {
@@ -18,7 +17,8 @@ class NoteList extends React.Component {
                             <Link to={`/note/${note.id}`} 
                             className="noteLink">
                                 {note.name} <br/>
-                                <p className="date">Modified {note.modified}</p>
+                                <p className="date">
+                                {format(new Date(note.modified), 'do MMM yyyy')}</p>
                             </Link>
                             <button className="deleteButton">
                                 Remove

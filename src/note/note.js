@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import { format } from 'date-fns'
 import './note.css'
 
 class Note extends React.Component {
@@ -8,25 +9,35 @@ class Note extends React.Component {
     render() {
 
         const note = this.props.note;
+        const folder = this.props.folder;
 
 
 
         return(
             <div className="main_note">
-                <div className="noteHeader">
-                    <h2>{note.name}</h2>
+                <header className="noteHeader">
+                    <p>{format(new Date(note.modified), 'do MMM yyyy')}</p>
+                    <h3>{folder.name}</h3>
 
-                </div>
+                </header>
                 <div className="noteContent">
+                    <h2>{note.name}</h2>
                     {note.content}
                 </div>
-                <p>{note.modified}</p>
-                <button className="deleteButton">
+                
+                <button type="button" className="deleteButton">
                     Remove
+                </button>
+
+                <button 
+                    type="button" 
+                    className="backButton"
+                    onClick={() => this.props.history.goBack()}>
+                    Back
                 </button>
             </div>
         )
     }
 }
 
-export default Note;
+export default withRouter(Note);

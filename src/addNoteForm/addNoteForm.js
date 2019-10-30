@@ -14,12 +14,20 @@ class AddNote extends React.Component {
 
                 <form>
                     
+               
+                    <div className="addNoteButtons">
+                        <button type='button' onClick={this.props.onClickBack}>
+                            Back
+                        </button>
+           
+                        <button type='submit'>
+                            Save
+                        </button>
+                    </div>
+              
                 </form>
-                <div className="backButton">
-                    Comp back button
-                </div>
-            
             </div>
+            
         )
     }
 }

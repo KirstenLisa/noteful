@@ -47,6 +47,20 @@ class App extends React.Component {
                   folders={this.state.folders} 
                   />}
                 />
+              <Route
+                exact
+                path='/folder/:folderId'
+                render={routeProps => {
+                  const folderId = routeProps.match.params.folderId;
+                  const notesForFolder = this.state.notes
+                  .filter(note => note.folderId === folderId);
+                  return <FolderList {...routeProps} 
+                                      folders={this.state.folders} 
+                                      notes={notesForFolder}      
+                  />
+                  }
+                }
+                />
           </div>
 
           <div className="mainContent">
@@ -58,27 +72,56 @@ class App extends React.Component {
                   notes={this.state.notes} 
                 />}
               />
-            <Route exact path="/add-note" component={AddNote} />
-            <Route exact path="/add-folder" component={AddFolder} />
+
+            <Route
+                exact
+                path='/folder/:folderId'
+                render={routeProps => {
+                  const folderId = routeProps.match.params.folderId;
+                  const notesForFolder = this.state.notes
+                  .filter(note => note.folderId === folderId);
+                  return <NoteList {...routeProps}  
+                                      notes={notesForFolder}      
+                  />
+                  }
+                }
+                />
+
             <Route 
                     exact 
                     path="/note/:noteId"
                     render={routeProps => {
                       const noteId = routeProps.match.params.noteId;
                       const note = this.state.notes.find(note => note.id === noteId);
-                      return <Note {...routeProps} note={note}
+                      const folder = this.state.folders
+                                    .find(folder => folder.id === note.folderId);
+                      return <Note {...routeProps} note={note} folder={folder}
                       />}
                         
                     }
                 />
-           
-    
+          
+          <Route 
+                exact 
+                path="/add-folder"
+                render={({ history }) => {
+                  return <AddFolder
+                  onClickBack={() => history.goBack()}
+                  />}}
+              />
+
+            <Route 
+                exact 
+                path="/add-note"
+                render={({ history }) => {
+                  return <AddNote
+                  onClickBack={() => history.goBack()}
+                  />}}
+              />
+
           </div> 
         </main>
-        </div>
-        
-
-      
+        </div>    
   );
 }
 }
