@@ -18,7 +18,7 @@ class NoteList extends React.Component {
                             className="noteLink">
                                 {note.name} <br/>
                                 <p className="date">
-                                {format(new Date(note.modified), 'do MMM yyyy')}</p>
+                                Modified on {format(new Date(note.modified), 'do MMM yyyy')}</p>
                             </Link>
                             <button className="deleteButton">
                                 Remove
@@ -29,13 +29,14 @@ class NoteList extends React.Component {
             <div className="notesMain">
                 <ul className="noteList">
                    { notes }
+                   <Link to={'/add-note'} className="addNoteButton">
+                    Add Note
+                    </Link>
                    
                 </ul>
 
                 
-                <Link to={'/add-note'} className="addNoteButton">
-                    Add Note
-                    </Link>
+                
 
                 
             </div>

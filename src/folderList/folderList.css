@@ -1,16 +1,22 @@
 .navList {
+    display: flex;
+    flex-direction: column;
     list-style: none;
     font-size: 28px;
     width: 100%;
 }
 
 .folderItem {
+    display: flex;
+    justify-content: left;
+    height: 45px;
     padding: 10px;
     margin: 10px;
     text-align: left;
-    border: 2px solid gray;
-    border-radius: 3px;
+    border: 2px solid #B35404;
+    border-radius: 5px;
     font-weight: bold;
+    background-color: #A3EFFF;
 }
 
 .folderLink {
@@ -19,18 +25,28 @@
 }
 
 .activeLink {
-    background-color: greenyellow;
+    background-color: #38DEFF;
+    color: #B35404;
 }
 
 .addFolderButton {
+    font-size: 28px;
+    font-weight: bold;
+    border: 2px solid #FF9438;
+    height: 55px;
+    width: 50%;
     align-self: center;
-    width: 70%;
-    font-size: 20px;
-    border: 2px solid gray;
-    border-radius: 5px;
-    margin-left: 50px;
+    text-align: center;
+    margin-left: 10px; 
+    margin-top: 10px;
     margin-bottom: 50px;
     padding: 10px; 
+    border-radius: 5px;
     text-decoration: none;
-    color: black;
+    color: white;
+    background-color: #B35404;
+}
+
+.addFolderButton:hover {
+    background-color: #FF9438;
 }

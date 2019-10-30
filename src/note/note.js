@@ -15,9 +15,16 @@ class Note extends React.Component {
 
         return(
             <div className="main_note">
+                <button 
+                    type="button" 
+                    className="backButton"
+                    onClick={() => this.props.history.goBack()}>
+                    Back
+                </button>
                 <header className="noteHeader">
-                    <p>{format(new Date(note.modified), 'do MMM yyyy')}</p>
                     <h3>{folder.name}</h3>
+                    <p>Modified on {format(new Date(note.modified), 'do MMM yyyy')}</p>
+                    
 
                 </header>
                 <div className="noteContent">
@@ -29,12 +36,7 @@ class Note extends React.Component {
                     Remove
                 </button>
 
-                <button 
-                    type="button" 
-                    className="backButton"
-                    onClick={() => this.props.history.goBack()}>
-                    Back
-                </button>
+                
             </div>
         )
     }

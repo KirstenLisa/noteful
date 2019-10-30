@@ -25,11 +25,13 @@ class FolderList extends React.Component {
             <div className="folderMain">
                 <ul className="navList">
                    {folders} 
-                </ul>
-                
-                <Link to={'/add-folder'} className="addFolderButton">
+
+                   <Link to={'/add-folder'} className="addFolderButton">
                     Add Folder
                     </Link>
+                </ul>
+                
+                
 
             </div>
         );

@@ -1,18 +1,25 @@
 .App {
     box-sizing: border-box;
+    margin: 0px;
+    background-color: #0099B8;
 }
 
 header {
-    font-size: 30px;
+    font-size: 34px;
+}
+
+.mainHeadline {
     display: block;
     text-align: center;
+    color: white;
+    margin: 0px;
+    padding-top: 40px;
 }
 
 .homeLink {
     text-decoration: none;
     color: black;
 }
-
 
 
 .mainApp {
@@ -27,7 +34,3 @@ header {
     width: 25%;
 }
 
-.mainContent {
-    flex-basis: 3;
-    width: 50%
-}
