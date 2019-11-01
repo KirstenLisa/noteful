@@ -1,17 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
+import NoteContext from '../NoteContext';
 import './noteList.css'
 
+
+
 class NoteList extends React.Component {
+    
+    static defaultProps = {
+        match: {
+          params: {}
+        }
+      }
 
-
+    static contextType = NoteContext;
 
     render() {
 
+        const folderId = this.props.match.params.folderId;
+        const notesForFolder = this.context.notes
+                    .filter(note => note.folderId === folderId);
 
 
-        const notes = this.props.notes
+        const notes = notesForFolder
             .map(
             (note, i) => <li className="noteItem" id={note.id} key={i}>
                             <Link to={`/note/${note.id}`} 
@@ -20,7 +32,9 @@ class NoteList extends React.Component {
                                 <p className="date">
                                 Modified on {format(new Date(note.modified), 'do MMM yyyy')}</p>
                             </Link>
-                            <button className="deleteButton">
+                            <button 
+                                className="deleteButton"
+                                onClick={this.deleteRequest}>
                                 Remove
                             </button>
                         </li>);
@@ -33,14 +47,8 @@ class NoteList extends React.Component {
                     Add Note
                     </Link>
                    
-                </ul>
-
-                
-                
-
-                
+                </ul>            
             </div>
-
         );
     }
 } 

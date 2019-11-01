@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom'
-import STORE from './store.js';
+import NoteContext from './NoteContext'
 import FolderList from './folderList/folderList.js'
 import NoteList from './noteList/noteList.js'
 import AddNote from './addNoteForm/addNoteForm.js'
@@ -8,19 +8,57 @@ import AddFolder from './addFolderForm/addFolderForm.js'
 import Note from './note/note.js'
 import './App.css';
 
+
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      folders: STORE.folders,
-      notes: STORE.notes
+      folders: [],
+      notes: []
     };
   }
-  
- 
 
+
+componentDidMount() {
+  Promise.all([
+    fetch('http://localhost:9090/folders'),
+    fetch('http://localhost:9090/notes')
+  ])
+      .then(([folderRes, notesRes]) => {
+        if(!folderRes.ok) {
+          throw new Error('Something went wrong, please try again later.')
+        }
+        if(!notesRes.ok) {
+          throw new Error('Something went wrong, please try again later.')
+        }
+        return Promise.all([folderRes.json(), notesRes.json()]);
+      })
+      .then(([folders, notes]) => {
+        console.log(notes);
+        this.setState({folders, notes});
+      })
+      .catch(error => {
+        console.error({error});
+      });
+  }
+
+
+  deleteNote = noteId => {
+    let newNotes = this.state.notes.filter(note =>
+      note.id !== noteId
+  )
+    this.setState({
+      notes: newNotes
+  })
+}
+  
   render() {
+    const contextValue = {
+      folders: this.state.folders,
+      notes: this.state.notes,
+      deleteNote: this.deleteNote
+    }
 
 
 
@@ -37,89 +75,55 @@ class App extends React.Component {
 
 
         <main className='mainApp'>
+          <NoteContext.Provider value={contextValue}>
 
-          <div className="sidebar">
-            <Route
-              exact
-              path='/'
-              render={() =>
-                <FolderList 
-                  folders={this.state.folders} 
-                  />}
-                />
+            <div className="sidebar">
               <Route
                 exact
-                path='/folder/:folderId'
-                render={routeProps => {
-                  const folderId = routeProps.match.params.folderId;
-                  const notesForFolder = this.state.notes
-                  .filter(note => note.folderId === folderId);
-                  return <FolderList {...routeProps} 
-                                      folders={this.state.folders} 
-                                      notes={notesForFolder}      
+                path='/'
+                component={FolderList}
                   />
-                  }
-                }
-                />
-          </div>
 
-          <div className="mainContent">
-            <Route
-              exact
-              path='/'
-              render={() =>
-                <NoteList
-                  notes={this.state.notes} 
-                />}
-              />
+                <Route
+                  exact
+                  path='/folder/:folderId'
+                  component={FolderList}
+                  />
+            </div>
 
-            <Route
+            <div className="mainContent">
+              <Route
                 exact
-                path='/folder/:folderId'
-                render={routeProps => {
-                  const folderId = routeProps.match.params.folderId;
-                  const notesForFolder = this.state.notes
-                  .filter(note => note.folderId === folderId);
-                  return <NoteList {...routeProps}  
-                                      notes={notesForFolder}      
+                path='/'
+                component={NoteList}
+                />
+
+              <Route
+                  exact
+                  path='/folder/:folderId'
+                  component={NoteList}
                   />
-                  }
-                }
+
+              <Route 
+                      exact 
+                      path="/note/:noteId"
+                      component={Note}
+                  />
+            
+            <Route 
+                  exact 
+                  path="/add-folder"
+                  component={AddFolder}
                 />
 
-            <Route 
-                    exact 
-                    path="/note/:noteId"
-                    render={routeProps => {
-                      const noteId = routeProps.match.params.noteId;
-                      const note = this.state.notes.find(note => note.id === noteId);
-                      const folder = this.state.folders
-                                    .find(folder => folder.id === note.folderId);
-                      return <Note {...routeProps} note={note} folder={folder}
-                      />}
-                        
-                    }
+              <Route 
+                  exact 
+                  path="/add-note"
+                  component={AddNote}
                 />
-          
-          <Route 
-                exact 
-                path="/add-folder"
-                render={({ history }) => {
-                  return <AddFolder
-                  onClickBack={() => history.goBack()}
-                  />}}
-              />
 
-            <Route 
-                exact 
-                path="/add-note"
-                render={({ history }) => {
-                  return <AddNote
-                  onClickBack={() => history.goBack()}
-                  />}}
-              />
-
-          </div> 
+            </div> 
+          </NoteContext.Provider>
         </main>
         </div>    
   );

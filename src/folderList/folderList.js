@@ -1,15 +1,16 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom'
+import NoteContext from '../NoteContext';
 import './folderList.css'
 
 class FolderList extends React.Component {
 
-
+    static contextType = NoteContext;
 
 
     render() {
 
-        const folders = this.props.folders
+        const folders = this.context.folders
             .map(
             (folder, i) => <li className="folderItem" id={folder.id} key={i}>
                                 <NavLink 
