@@ -33,7 +33,7 @@ class Note extends React.Component {
         })
         .then(() => {
           this.context.deleteNote(noteId)
-          this.onDeleteNote(noteId)
+          this.props.onDeleteNote(noteId)
         })
         .catch(error => {
           console.error(error)
@@ -53,6 +53,8 @@ class Note extends React.Component {
             folder = this.context.folders
                         .find(folder => folder.id === note.folderId);
 
+        }
+   
 
           return(
             <div className="main_note">
@@ -82,8 +84,7 @@ class Note extends React.Component {
                 
             </div>
         )
-
     }
 }
-}
+
 export default Note;
