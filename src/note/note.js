@@ -5,6 +5,9 @@ import './note.css'
 
 class Note extends React.Component {
 
+    static defaultProps ={
+        onDeleteNote: () => {},
+      }
 
     static contextType = NoteContext;
 
@@ -30,6 +33,7 @@ class Note extends React.Component {
         })
         .then(() => {
           this.context.deleteNote(noteId)
+          this.onDeleteNote(noteId)
         })
         .catch(error => {
           console.error(error)
@@ -38,11 +42,16 @@ class Note extends React.Component {
 
     render() {
 
-        const noteId = this.props.match.params.noteId;
-        const note = this.context.notes.find(note => note.id === noteId);
-        const folder = this.context.folders
-                     .find(folder => folder.id === note.folderId);
+        let noteId = null
+        let note = null
+        let folder = null
 
+        if(this.context.notes === true) {
+
+            noteId = this.props.match.params.noteId;
+            note = this.context.notes.find(note => note.id === noteId);
+            folder = this.context.folders
+                        .find(folder => folder.id === note.folderId);
 
 
           return(
@@ -73,6 +82,8 @@ class Note extends React.Component {
                 
             </div>
         )
+
     }
+}
 }
 export default Note;
