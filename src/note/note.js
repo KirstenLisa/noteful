@@ -11,10 +11,17 @@ class Note extends React.Component {
 
     static contextType = NoteContext;
 
+    
+
     deleteRequest = (e) => {
         e.preventDefault();
         const noteId = this.props.match.params.noteId;
-        console.log("NOTEID:" + noteId)
+        const note = this.context.notes.find(note => note.id === noteId);
+        const folder = this.context.folders
+                    .find(folder => folder.id === note.folderId);
+        const folderId = folder.id;
+        
+        console.log("folderid:" + folderId)
         fetch(`http://localhost:9090/notes/${noteId}`, {
           method: 'DELETE',
           headers: {
@@ -32,8 +39,10 @@ class Note extends React.Component {
           return res.json()
         })
         .then(() => {
-          this.context.deleteNote(noteId)
-          this.props.onDeleteNote(noteId)
+            this.props.history.push(`/folder/${folderId}`)
+            this.context.deleteNote(noteId)
+            this.props.onDeleteNote(noteId)
+          
         })
         .catch(error => {
           console.error(error)
@@ -42,19 +51,13 @@ class Note extends React.Component {
 
     render() {
 
-        let noteId = null
-        let note = null
-        let folder = null
 
-        if(this.context.notes === true) {
+        const noteId = this.props.match.params.noteId;
+        const note = this.context.notes.find(note => note.id === noteId);
+        const folder = this.context.folders
+                    .find(folder => folder.id === note.folderId);
 
-            noteId = this.props.match.params.noteId;
-            note = this.context.notes.find(note => note.id === noteId);
-            folder = this.context.folders
-                        .find(folder => folder.id === note.folderId);
-
-        }
-   
+        
 
           return(
             <div className="main_note">
@@ -86,5 +89,8 @@ class Note extends React.Component {
         )
     }
 }
+
+
+
 
 export default Note;

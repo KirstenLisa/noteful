@@ -16,8 +16,8 @@ class AddNote extends React.Component {
                     
                
                     <div className="addNoteButtons">
-                        <button type='button' onClick={this.props.onClickBack}>
-                            Back
+                        <button type='button' onClick={() => this.props.history.push('/')}>
+                            Cancel
                         </button>
            
                         <button type='submit'>

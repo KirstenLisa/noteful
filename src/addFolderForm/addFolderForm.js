@@ -14,8 +14,8 @@ class AddFolder extends React.Component {
                 </h1>
 
                 <div className="addFolderButtons">
-                    <button type='button' onClick={this.props.onClickBack}>
-                        Back
+                    <button type='button' onClick={() => this.props.history.push('/')}>
+                        Cancel
                     </button>
            
                     <button type='submit'>

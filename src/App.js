@@ -52,6 +52,33 @@ componentDidMount() {
       notes: newNotes
   })
 }
+
+renderMain(){
+  return(
+  <div>
+    {['/', '/folder/:folderId'].map(path =>
+      <Route
+        exact
+        key={path}
+        path={path}
+        component={NoteList}
+      />
+    )}
+    
+      <Route 
+          exact 
+          path="/note/:noteId"
+          component={Note}
+          />
+
+      <Route 
+          exact 
+          path="/add-note"
+          component={AddNote}
+          />
+        </div>
+  );  
+}
   
   render() {
     const contextValue = {
@@ -89,39 +116,17 @@ componentDidMount() {
                   path='/folder/:folderId'
                   component={FolderList}
                   />
-            </div>
 
-            <div className="mainContent">
-              <Route
-                exact
-                path='/'
-                component={NoteList}
-                />
-
-              <Route
-                  exact
-                  path='/folder/:folderId'
-                  component={NoteList}
-                  />
-
-              <Route 
-                      exact 
-                      path="/note/:noteId"
-                      component={Note}
-                  />
-            
-            <Route 
+                <Route 
                   exact 
                   path="/add-folder"
                   component={AddFolder}
                 />
+            </div>
 
-              <Route 
-                  exact 
-                  path="/add-note"
-                  component={AddNote}
-                />
-
+            <div className="mainContent">
+             {this.renderMain()}
+              
             </div> 
           </NoteContext.Provider>
         </main>
