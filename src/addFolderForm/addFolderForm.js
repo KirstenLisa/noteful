@@ -19,7 +19,7 @@ class AddFolder extends React.Component {
         this.setState({folderName: {value: name, touched: true}});
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         const { name } = e.target;
         const newFolder = {name: name.value}
@@ -35,24 +35,18 @@ class AddFolder extends React.Component {
           })
 
           .then(res => {
-            if (!res.ok) {
-              // get the error message from the response,
-              return res.json().then(error => {
-                // then throw it
-                throw error
-              })
-            }
+            if (!res.ok)
+              return res.json().then(e => Promise.reject(e))
             return res.json()
           })
-          .then(data => {
-            this.context.addFolder(data)
-            this.props.history.push('/')  
+          .then(newFolder => {
+            this.context.addFolder(newFolder)
+            this.props.history.push(`/folder/${newFolder.id}`)
           })
-         
           .catch(error => {
-            this.setState({ error })
+            console.error({ error })
           })
-      } 
+      }
     
 
     validateFolderName(fieldValue) {
@@ -71,7 +65,7 @@ class AddFolder extends React.Component {
 
 
         return(
-            <form className="addFolderForm" onSubmit={e => this.handleSubmit(e)}>
+            <form className="addFolderForm" onSubmit={this.handleSubmit}>
                 <div className='addNote_error' role='alert'>
                 {error && <p>{error.message}</p>}</div>
                 <h2>Create a new folder</h2>
