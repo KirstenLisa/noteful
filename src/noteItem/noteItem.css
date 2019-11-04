@@ -1,6 +1,7 @@
 .notes {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .noteLink {
@@ -14,18 +15,20 @@
 
 .noteTitle {
     margin: 0px;
+    font-size: 28px;
 }
 
 .date {
     display: flex;
-    font-size: 22px;
+    font-size: 18px;
     margin: 0px;
     font-weight: lighter !important;
 }
 
 .deleteButton {
-    font-size: 22px;
+    font-size: 20px;
     border-radius: 5px;
+    padding: 5px;
     background-color: #B35404;
     color: white;
 }

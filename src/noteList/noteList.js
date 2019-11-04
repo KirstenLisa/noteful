@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import NoteContext from '../NoteContext'
 import NoteItem from '../noteItem/noteItem'
+import PropTypes from 'prop-types';
 import './noteList.css'
 
 
@@ -45,6 +46,16 @@ class NoteList extends React.Component {
         );
     }
 } 
+
+NoteList.propTypes = {
+    notes: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        modified: PropTypes.string.isRequired,
+        folderId: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired
+    }))
+  };
 
 
 

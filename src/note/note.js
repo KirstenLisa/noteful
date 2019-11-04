@@ -1,6 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns'
 import NoteContext from '../NoteContext';
+import PropTypes from 'prop-types';
 import './note.css'
 
 class Note extends React.Component {
@@ -90,7 +91,19 @@ class Note extends React.Component {
     }
 }
 
-
+Note.propTypes = {
+  notes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      modified: PropTypes.string.isRequired,
+      folderId: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired
+  })),
+  folders: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+}))
+};
 
 
 export default Note;

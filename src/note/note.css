@@ -1,8 +1,7 @@
 .main_note {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    margin: 20px 0px 50px 120px;
+    margin: 0px;
     background-color: #0099B8;
 }
 
@@ -32,10 +31,12 @@
 
 h3 {
     font-size: 40px;
+    margin-bottom: 0px;
 }
 
 p {
-    font-size: 24px;
+    font-size: 18px;
+    margin-bottom: 0px;
 }
 
 .noteContent {
@@ -58,8 +59,6 @@ h2 {
     font-size: 20px;
     font-weight: bold;
     border: 2px solid #FF9438;
-    height: 40px;
-    width: 30%;
     align-self: left;
     text-align: center;
     margin-left: 30px; 

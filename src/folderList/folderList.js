@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom'
 import NoteContext from '../NoteContext';
+import PropTypes from 'prop-types';
 import './folderList.css'
 
 class FolderList extends React.Component {
@@ -38,5 +39,12 @@ class FolderList extends React.Component {
         );
     }
 } 
+
+FolderList.propTypes = {
+    folders: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    }))
+  };
 
 export default FolderList;

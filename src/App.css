@@ -25,12 +25,13 @@ header {
 .mainApp {
     display: flex;
     flex-direction: row;
+    width: 100%;
 }
 
 .sidebar {
     flex-basis: 1;
     margin-right: 20px;
     margin-left: 20px;
-    width: 25%;
+    min-width: 35%;
 }
 

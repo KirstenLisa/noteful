@@ -6,6 +6,7 @@ import NoteList from './noteList/noteList.js'
 import AddNote from './addNoteForm/addNoteForm.js'
 import AddFolder from './addFolderForm/addFolderForm.js'
 import Note from './note/note.js'
+import ErrorBoundaries from './errorBoundaries'
 import './App.css';
 
 
@@ -53,6 +54,18 @@ componentDidMount() {
   })
 }
 
+addNote = note => {
+  this.setState({
+    notes: [ ...this.state.notes, note ],
+  })
+}
+
+addFolder = folder => {
+  this.setState({
+    folders: [...this.state.folders, folder]
+  })
+}
+
 renderMain(){
   return(
   <div>
@@ -69,6 +82,12 @@ renderMain(){
           exact 
           path="/note/:noteId"
           component={Note}
+          />
+      
+      <Route 
+          exact 
+          path="/add-folder"
+          component={AddFolder}
           />
 
       <Route 
@@ -105,27 +124,25 @@ renderMain(){
           <NoteContext.Provider value={contextValue}>
 
             <div className="sidebar">
-              <Route
-                exact
-                path='/'
-                component={FolderList}
-                  />
+              <ErrorBoundaries>
+                <Route
+                  exact
+                  path='/'
+                  component={FolderList}
+                    />
 
                 <Route
                   exact
                   path='/folder/:folderId'
                   component={FolderList}
                   />
-
-                <Route 
-                  exact 
-                  path="/add-folder"
-                  component={AddFolder}
-                />
+              </ErrorBoundaries>
             </div>
 
             <div className="mainContent">
-             {this.renderMain()}
+              <ErrorBoundaries>
+                {this.renderMain()}
+              </ErrorBoundaries>
               
             </div> 
           </NoteContext.Provider>
