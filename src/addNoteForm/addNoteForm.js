@@ -100,7 +100,7 @@ class AddNote extends React.Component {
           .then(data => {
             console.log(data)
             this.context.addNote(data)
-            this.props.history.push('/')  
+            this.props.history.push(`/folder/${data.folderId}`)  
           })
          
           .catch(error => {

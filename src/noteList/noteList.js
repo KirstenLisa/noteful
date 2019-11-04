@@ -19,24 +19,47 @@ class NoteList extends React.Component {
         const folderId = this.props.match.params.folderId;
         const notesForFolder = this.context.notes
                     .filter(note => note.folderId === folderId);
+        const notes = this.context.notes
+        let noteList = {}
+        
 
-
-        const notes = notesForFolder
+        const noteListFolder = notesForFolder
+                .map(
+                (note, i) => <li className="noteItem" id={note.id} key={i}>
+                                <NoteItem 
+                                    name={note.name}
+                                    date = {format(new Date(note.modified), 'do MMM yyyy')}
+                                    id={note.id}
+                                    />
+                                    </li>);
+      
+      if (folderId) {
+        noteList = notesForFolder
             .map(
             (note, i) => <li className="noteItem" id={note.id} key={i}>
-                            <NoteItem 
-                                name={note.name}
-                                date = {format(new Date(note.modified), 'do MMM yyyy')}
-                                id={note.id}
-                                />
-                                </li>);
-
+                        <NoteItem 
+                            name={note.name}
+                            date = {format(new Date(note.modified), 'do MMM yyyy')}
+                            id={note.id}
+                            />
+                            </li>);
+      } else {
+        noteList = notes
+            .map(
+            (note, i) => <li className="noteItem" id={note.id} key={i}>
+                        <NoteItem 
+                            name={note.name}
+                            date = {format(new Date(note.modified), 'do MMM yyyy')}
+                            id={note.id}
+                            />
+                            </li>);
+      }
                         
 
         return(
             <div className="notesMain">
                 <ul className="noteList">
-                   { notes }
+                   { noteList }
                    <Link to={'/add-note'} className="addNoteButton">
                     Add Note
                     </Link>

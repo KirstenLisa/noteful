@@ -103,7 +103,9 @@ renderMain(){
     const contextValue = {
       folders: this.state.folders,
       notes: this.state.notes,
-      deleteNote: this.deleteNote
+      deleteNote: this.deleteNote,
+      addFolder: this.addFolder,
+      addNote: this.addNote
     }
 
 

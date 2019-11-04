@@ -1,10 +1,13 @@
 import React from 'react';
+import NoteContext from '../NoteContext';
 import ValidationError from "../validationError";
 import PropTypes from 'prop-types';
 import './addFolderForm.css'
 
 
 class AddFolder extends React.Component {
+
+    static contextType = NoteContext;
 
     constructor(props) {
         super(props);
@@ -19,7 +22,7 @@ class AddFolder extends React.Component {
         this.setState({folderName: {value: name, touched: true}});
     }
 
-    handleSubmit = e => {
+    handleSubmit(e) {
         e.preventDefault();
         const { name } = e.target;
         const newFolder = {name: name.value}
@@ -35,18 +38,25 @@ class AddFolder extends React.Component {
           })
 
           .then(res => {
-            if (!res.ok)
-              return res.json().then(e => Promise.reject(e))
+            if (!res.ok) {
+              // get the error message from the response,
+              return res.json().then(error => {
+                // then throw it
+                throw error
+              })
+            }
             return res.json()
           })
-          .then(newFolder => {
-            this.context.addFolder(newFolder)
-            this.props.history.push(`/folder/${newFolder.id}`)
+          .then(data => {
+            console.log(this.context)
+            this.context.addFolder(data)
+            this.props.history.push('/')  
           })
+         
           .catch(error => {
-            console.error({ error })
+            this.setState({ error })
           })
-      }
+      } 
     
 
     validateFolderName(fieldValue) {
@@ -65,7 +75,7 @@ class AddFolder extends React.Component {
 
 
         return(
-            <form className="addFolderForm" onSubmit={this.handleSubmit}>
+            <form className="addFolderForm" onSubmit={e => this.handleSubmit(e)}>
                 <div className='addNote_error' role='alert'>
                 {error && <p>{error.message}</p>}</div>
                 <h2>Create a new folder</h2>
