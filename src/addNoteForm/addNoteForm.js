@@ -60,10 +60,20 @@ class AddNote extends React.Component {
 
       validateSelection(){
           const selectedFolder = this.state.folder.value;
-          if(selectedFolder === "None") {
+          console.log('selectedFolder:' + selectedFolder);
+          if(selectedFolder === "None" || selectedFolder === '') {
             return 'Folder is required';
           }
       }
+
+      disableButton() {
+          if(this.validateNoteName() ||this.validateNoteContent() || 
+          this.validateSelection()) {
+              return true
+          }
+      }
+
+    
 
       handleSubmit(e) {
         e.preventDefault();
@@ -122,6 +132,7 @@ class AddNote extends React.Component {
         const nameError = this.validateNoteName();
         const contentError = this.validateNoteContent();
         const folderError = this.validateSelection();
+        const buttonDisabled = this.disableButton();
 
 
         return(
@@ -161,7 +172,7 @@ class AddNote extends React.Component {
                     <select
                     name="folder"
                     onChange={e => this.updateFolder(e.target.value)}>
-                    <option value="None">Select one...</option>
+                    <option value={"None"}>Select one...</option>
                     {folders}
                     </select>
                     {this.state.folder.touched && (
@@ -176,10 +187,7 @@ class AddNote extends React.Component {
                     <button
                         type="submit"
                         className="save_button"
-                        disabled={
-                            this.validateNoteName() ||
-                            this.validateNoteContent() ||
-                            this.validateSelection()}>
+                        disabled={buttonDisabled}>
                             Save
                     </button>
                 </div>
