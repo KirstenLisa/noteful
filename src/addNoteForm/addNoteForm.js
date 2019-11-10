@@ -17,7 +17,7 @@ class AddNote extends React.Component {
           },
           noteContent: {
             value: '',
-            touched: false
+            touched: false 
           },
           folder: {
               value: '',
@@ -150,9 +150,11 @@ class AddNote extends React.Component {
                         className="registration_control"
                         name="name"
                         id="name"
-                        onChange={e => this.updateNoteName(e.target.value)}/>
+                        onChange={e => this.updateNoteName(e.target.value)}
+                        aria-required="true" 
+                        aria-describedby="nameError"/>
                     {this.state.noteName.touched && (
-                    <ValidationError message={nameError} />)}
+                    <ValidationError message={nameError} id="nameError" />)}
                 </div>
                
                 <div className="form-group">
@@ -162,21 +164,25 @@ class AddNote extends React.Component {
                         className="registration_control"
                         name="content"
                         id="content"
-                        onChange={e => this.updateContent(e.target.value)}/>
+                        onChange={e => this.updateContent(e.target.value)}
+                        aria-required="true" 
+                        aria-describedby="contentError"/>
                     {this.state.noteContent.touched && (
-                    <ValidationError message={contentError} />)}
+                    <ValidationError message={contentError}  id="contentError"/>)}
                 </div>
 
                 <div className="folder-select">
                     <label htmlFor="folder">Select a folder: *</label>
                     <select
                     name="folder"
-                    onChange={e => this.updateFolder(e.target.value)}>
+                    onChange={e => this.updateFolder(e.target.value)}
+                    aria-required="true" 
+                    aria-describedby="folderError">
                     <option value={"None"}>Select one...</option>
                     {folders}
                     </select>
                     {this.state.folder.touched && (
-                    <ValidationError message={folderError} />)}
+                    <ValidationError message={folderError} id="folderError"/>)}
                 </div>
 
                 <div className="note_button_group">
