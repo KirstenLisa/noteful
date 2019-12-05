@@ -18,16 +18,15 @@ class NoteList extends React.Component {
 
         const folderId = this.props.match.params.folderId;
         const notesForFolder = this.context.notes
-                    .filter(note => note.folderId === folderId);
+                    .filter(note => note.folder_id == folderId);
         const notes = this.context.notes
         let noteList = {}
-        
 
         const noteListFolder = notesForFolder
                 .map(
                 (note, i) => <li className="noteItem" id={note.id} key={i}>
                                 <NoteItem 
-                                    name={note.name}
+                                    name={note.note_name}
                                     date = {format(new Date(note.modified), 'do MMM yyyy')}
                                     id={note.id}
                                     />
@@ -38,7 +37,7 @@ class NoteList extends React.Component {
             .map(
             (note, i) => <li className="noteItem" id={note.id} key={i}>
                         <NoteItem 
-                            name={note.name}
+                            name={note.note_name}
                             date = {format(new Date(note.modified), 'do MMM yyyy')}
                             id={note.id}
                             />
@@ -48,7 +47,7 @@ class NoteList extends React.Component {
             .map(
             (note, i) => <li className="noteItem" id={note.id} key={i}>
                         <NoteItem 
-                            name={note.name}
+                            name={note.note_name}
                             date = {format(new Date(note.modified), 'do MMM yyyy')}
                             id={note.id}
                             />
@@ -73,9 +72,9 @@ class NoteList extends React.Component {
 NoteList.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        note_name: PropTypes.string.isRequired,
         modified: PropTypes.string.isRequired,
-        folderId: PropTypes.string.isRequired,
+        folder_id: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired
     }))
   };

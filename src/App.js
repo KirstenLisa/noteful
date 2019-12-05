@@ -6,6 +6,7 @@ import NoteList from './noteList/noteList.js'
 import AddNote from './addNoteForm/addNoteForm.js'
 import AddFolder from './addFolderForm/addFolderForm.js'
 import Note from './note/note.js'
+import config from './config'
 import ErrorBoundaries from './errorBoundaries'
 import './App.css';
 
@@ -23,8 +24,18 @@ class App extends React.Component {
 
 componentDidMount() {
   Promise.all([
-    fetch('http://localhost:9090/folders'),
-    fetch('http://localhost:9090/notes')
+    fetch(config.API_FOLDERS_ENDPOINT, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${config.API_KEY}`
+      }}),
+      fetch(config.API_NOTES_ENDPOINT, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          'Authorization': `Bearer ${config.API_KEY}`
+        }})
   ])
       .then(([folderRes, notesRes]) => {
         if(!folderRes.ok) {
@@ -36,8 +47,9 @@ componentDidMount() {
         return Promise.all([folderRes.json(), notesRes.json()]);
       })
       .then(([folders, notes]) => {
-        console.log(notes);
         this.setState({folders, notes});
+        console.log(notes);
+        console.log(folders)
       })
       .catch(error => {
         console.error({error});

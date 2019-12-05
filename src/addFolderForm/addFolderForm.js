@@ -2,6 +2,7 @@ import React from 'react';
 import NoteContext from '../NoteContext';
 import ValidationError from "../validationError";
 import PropTypes from 'prop-types';
+import config from '../config';
 import './addFolderForm.css'
 
 
@@ -29,11 +30,12 @@ class AddFolder extends React.Component {
         console.log(newFolder)
 
 
-        fetch('http://localhost:9090/folders', {
+        fetch(config.API_FOLDERS_ENDPOINT, {
             method: 'POST',
             body: JSON.stringify(newFolder),
             headers: {
-              'content-type': 'application/json'
+              'content-type': 'application/json',
+              'Authorization': `Bearer ${config.API_KEY}`
             }
           })
 

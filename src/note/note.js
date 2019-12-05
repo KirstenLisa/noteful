@@ -2,6 +2,7 @@ import React from 'react';
 import { format } from 'date-fns'
 import NoteContext from '../NoteContext';
 import PropTypes from 'prop-types';
+import config from '../config';
 import './note.css'
 
 class Note extends React.Component {
@@ -11,22 +12,24 @@ class Note extends React.Component {
       }
 
     static contextType = NoteContext;
+   
 
     
 
     deleteRequest = (e) => {
         e.preventDefault();
         const noteId = this.props.match.params.noteId;
-        const note = this.context.notes.find(note => note.id === noteId);
+        const note = this.context.notes.find(note => note.id == noteId);
         const folder = this.context.folders
-                    .find(folder => folder.id === note.folderId);
+                    .find(folder => folder.id == note.folder_id);
         const folderId = folder.id;
         
         console.log("folderid:" + folderId)
-        fetch(`http://localhost:9090/notes/${noteId}`, {
+        fetch(config.API_NOTES_ENDPOINT + `/${noteId}`, {
           method: 'DELETE',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${config.API_KEY}`
         },
         })
         .then(res => {
@@ -37,7 +40,7 @@ class Note extends React.Component {
               throw error
             })
           }
-          return res.json()
+          return res
         })
         .then(() => {
             this.props.history.push(`/folder/${folderId}`)
@@ -51,13 +54,15 @@ class Note extends React.Component {
       }
 
     render() {
-
-
+    
+       
         const noteId = this.props.match.params.noteId;
-        const note = this.context.notes.find(note => note.id === noteId);
+        const note = this.context.notes.find(note => note.id == noteId);
         const folder = this.context.folders
-                    .find(folder => folder.id === note.folderId);
+                    .find(folder => folder.id == note.folder_id);
 
+                 
+                          
         
 
           return(
@@ -69,13 +74,13 @@ class Note extends React.Component {
                     Back
                 </button>
                 <header className="noteHeader">
-                    <h3>{folder.name}</h3>
+                    <h3>{folder.folder_name}</h3>
                     <p>Modified on {format(new Date(note.modified), 'do MMM yyyy')}</p>
                     
 
                 </header>
                 <div className="noteContent">
-                    <h2>{note.name}</h2>
+                    <h2>{note.note_name}</h2>
                     {note.content}
                 </div>
                 
@@ -94,14 +99,14 @@ class Note extends React.Component {
 Note.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      note_name: PropTypes.string.isRequired,
       modified: PropTypes.string.isRequired,
-      folderId: PropTypes.string.isRequired,
+      folder_id: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired
   })),
   folders: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    folder_name: PropTypes.string.isRequired,
 }))
 };
 

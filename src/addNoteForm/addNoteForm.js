@@ -2,6 +2,7 @@ import React from 'react';
 import NoteContext from '../NoteContext';
 import ValidationError from "../validationError";
 import PropTypes from 'prop-types';
+import config from '../config';
 import './addNoteForm.css'
 
 class AddNote extends React.Component {
@@ -89,11 +90,12 @@ class AddNote extends React.Component {
         }
 
 
-        fetch('http://localhost:9090/notes', {
+        fetch(config.API_NOTES_ENDPOINT, {
             method: 'POST',
             body: JSON.stringify(newNote),
             headers: {
-              'content-type': 'application/json'
+              'content-type': 'application/json',
+              'Authorization': `Bearer ${config.API_KEY}`
             }
           })
 

@@ -19,7 +19,7 @@ class FolderList extends React.Component {
                                     to={`/folder/${folder.id}`}
                                     className="folderLink" 
                                     activeClassName="activeLink">
-                                    {folder.name}
+                                    {folder.folder_name}
                                 </NavLink>
                             </li>);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import NoteContext from '../NoteContext'
+import config from '../config';
 import './noteItem.css'
 
 class NoteItem extends React.Component {
@@ -11,11 +12,11 @@ class NoteItem extends React.Component {
     deleteRequest = (e) => {
         e.preventDefault();
         const noteId = this.props.id
-        console.log("NOTEID:" + noteId)
-        fetch(`http://localhost:9090/notes/${noteId}`, {
+        fetch(config.API_NOTES_ENDPOINT + `/${noteId}`, {
           method: 'DELETE',
           headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${config.API_KEY}`
         },
         })
         .then(res => {
@@ -26,7 +27,7 @@ class NoteItem extends React.Component {
               throw error
             })
           }
-          return res.json()
+          return res
         })
         .then(() => {
             this.context.deleteNote(noteId)
@@ -38,6 +39,7 @@ class NoteItem extends React.Component {
       }
 
     render() {
+
 
         return (
             <div className="notes">
