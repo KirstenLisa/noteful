@@ -19,13 +19,19 @@ h2 {
     font-size: 28px;
 }
 
-button {
-    border: 2px solid #0099B8;
-    border-radius: 5px;
-    background-color: #0099B8;
-    color: white;
+
+.updateButto, .saveButton {
     font-size: 20px;
-    padding: 10px;
-    margin: 20px;
-    width: 150px;
+    font-weight: bold;
+    border: 2px solid #FF9438;
+    align-self: left;
+    text-align: center;
+    margin-left: 30px; 
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px; 
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    background-color: #B35404;
 }

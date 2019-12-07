@@ -31,6 +31,7 @@ class FolderList extends React.Component {
                    <Link to={'/add-folder'} className="addFolderButton">
                     Add Folder
                     </Link>
+
                 </ul>
                 
                 

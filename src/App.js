@@ -6,6 +6,7 @@ import NoteList from './noteList/noteList.js'
 import AddNote from './addNoteForm/addNoteForm.js'
 import AddFolder from './addFolderForm/addFolderForm.js'
 import Note from './note/note.js'
+import UpdateNote from './updateNote/updateNote.js'
 import config from './config'
 import ErrorBoundaries from './errorBoundaries'
 import './App.css';
@@ -78,6 +79,16 @@ addFolder = folder => {
   })
 }
 
+updateNote = updatedNote => {
+  const newNotes = this.state.notes.map(note =>
+    (note.id == updatedNote.id)
+    ? updatedNote
+    : note)
+  this.setState({
+    notes: newNotes
+  })
+}
+
 renderMain(){
   return(
   <div>
@@ -107,7 +118,16 @@ renderMain(){
           path="/add-note"
           component={AddNote}
           />
+
+      <Route 
+          exact 
+          path="/note/:noteId/update-note"
+          component={UpdateNote}
+          />
+
         </div>
+
+      
   );  
 }
   
@@ -117,7 +137,8 @@ renderMain(){
       notes: this.state.notes,
       deleteNote: this.deleteNote,
       addFolder: this.addFolder,
-      addNote: this.addNote
+      addNote: this.addNote,
+      updateNote: this.updateNote
     }
 
 

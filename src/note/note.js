@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import NoteContext from '../NoteContext';
 import PropTypes from 'prop-types';
@@ -90,6 +91,12 @@ class Note extends React.Component {
                     onClick={this.deleteRequest}>
                     Remove
                 </button>
+                <button className="updateNoteButton">
+                <Link to={`/note/${noteId}/update-note`} className="linkClass">
+                    Edit Note
+                    </Link>
+                </button>
+                
                 
             </div>
         )

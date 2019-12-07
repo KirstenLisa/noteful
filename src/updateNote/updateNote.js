@@ -1,12 +1,15 @@
 import React, { Component } from  'react';
 import NoteContext from '../NoteContext';
+import PropTypes from 'prop-types';
 import config from '../config'
 
 const Required = () => (
   <span className='UpdateNote__required'>*</span>
 )
 
-export default class UpdateNoteForm extends Component {
+
+
+export default class UpdateNote extends Component {
 
   static propTypes = {
     match: PropTypes.shape({
@@ -46,19 +49,18 @@ export default class UpdateNoteForm extends Component {
   componentDidMount() {
     const { noteId } = this.props.match.params
     console.log('NOTE: ' + noteId)
-    fetch(config.API_ENDPOINT + `/${noteId}`, {
+    console.log(config.API_NOTES_ENDPOINT + `/${noteId}`)
+    fetch(config.API_NOTES_ENDPOINT + `/${noteId}`, {
         method: 'GET',
         headers: {
           'authorization': `Bearer ${config.API_KEY}`
         }
       })
-    .then(res => {
-      if(!res.ok) {
-        return res.json().then(error => {
-          throw error
-        })
-      }
-    return res.json()
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(error => Promise.reject(error))
+
+        return res.json()
     })
     .then(responseData => {
       console.log(responseData)
@@ -72,17 +74,18 @@ export default class UpdateNoteForm extends Component {
           })
      
     .catch(error => {
-      console.error(error)
-      this.setState({ error });
-    })
-  }
+        console.error(error)
+        this.setState({ error });
+        })
+    }
 
   handleSubmit = e => {
     e.preventDefault()
     const { noteId } = this.props.match.params
-    const { id, note_name, modified, content, folder_id } = this.state
+    const { id, note_name, content, folder_id } = this.state
+    const modified = new Date()
     const updatedNote = { id, note_name, modified, content, folder_id }
-    fetch(config.API_ENDPOINT + `/${noteId}`, {
+    fetch(config.API_NOTES_ENDPOINT + `/${noteId}`, {
       method: 'PATCH',
       body: JSON.stringify(updatedNote),
       headers: {
@@ -96,7 +99,7 @@ export default class UpdateNoteForm extends Component {
       })
       .then(() => {
         this.resetFields(updatedNote)
-        this.context.updateBookmark(updatedNote)
+        this.context.updateNote(updatedNote)
         this.props.history.push('/')
       })
       .catch(error => {
@@ -104,6 +107,7 @@ export default class UpdateNoteForm extends Component {
         this.setState({ error })
       })
   }
+
 
   resetFields = (newFields) => {
     this.setState({
@@ -117,12 +121,24 @@ export default class UpdateNoteForm extends Component {
 
   /* state for inputs etc... */
   render() {
+    const { noteId } = this.props.match.params
+    const note = this.context.notes.find(note => note.id == noteId);
+    const note_folder = this.context.folders
+    .find(folder => folder.id == note.folder_id);
+    const currentFolder = note_folder.folder_name
+    console.log(currentFolder)
+    const folders = this
+    .context
+    .folders
+    .map(
+      (folder, i) => <option value={folder.id} key={i} id={folder.id}>{folder.folder_name}</option>
+    );
     const { error, note_name, modified, content, folder_id } = this.state
     return (
-      <section className='UpdateBookmarkForm'>
+      <section className='UpdateNoteForm'>
         <h2>Edit Note</h2>
         <form onSubmit= {(e) => this.handleSubmit(e)}>
-          <div className='UpdateNote__error' role='alert'>
+        <div className='UpdateNote__error' role='alert'>
             {error && <p>{error.message}</p>}
           </div>
           <input
@@ -146,61 +162,39 @@ export default class UpdateNoteForm extends Component {
           </div>
 
           <div>
-            <label htmlFor='url'>
-              
-              <Required />
+            <label htmlFor='content'>
+              Content
             </label>
             <input
-            id='url'
-            type='url'
-            name='url'
-            placeholder='www.url.com'
-            required
-            value={url}
-            onChange={e => this.updateBookmarkUrl(e.target.value)}
-        />
-          </div>
-
-          <div>
-            <label htmlFor='description'>
-              Description
-            </label>
-            <input
-            id='description'
+            id='content'
             type='text'
-            name='description'
-            placeholder='Bookmark description!'
-            value={description}
-            onChange={e => this.updateBookmarkDescription(e.target.value)}
+            name='content'
+            placeholder='Note content!'
+            value={content}
+            onChange={e => this.updateNoteContent}
         />
           </div>
 
-          <div>
-            <label htmlFor='rating'>
-              Rating
-              <Required />
-            </label>
-            <input
-            id='rating'
-            type='number'
-            name='rating'
-            placeholder= '5'
-            min='1'
-            max='5'
-            required
-            value={rating}
-            onChange={e => this.updateBookmarkRating(e.target.value)}
-        />
-          </div>
+          <div className="folder-select">
+                <label htmlFor="folder">Select a folder: *</label>
+                <select
+                    name="folder"
+                    onChange={this.updateNoteFolder}
+                    aria-required="true" 
+                    aria-describedby="folderError">
+                    <option value={"None"}>{currentFolder}</option>
+                    {folders}
+                </select>
+         </div>
           
           <div className="update_button_group">
-            <button type='button' onClick={() => this.props.history.push('/')}>
+            <button type='button' onClick={() => this.props.history.push('/')} className="updateButton">
               Cancel
             </button>
            
             <button
               type="submit"
-              className="save_button"
+              className="saveButton"
               >
                 Save changes
             </button>

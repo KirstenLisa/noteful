@@ -83,9 +83,9 @@ class AddNote extends React.Component {
         
 
         const newNote = {
-            name: name.value,
+            note_name: name.value,
             modified: new Date(),
-            folderId: folder.value,
+            folder_id: folder.value,
             content: content.value 
         }
 
@@ -128,7 +128,7 @@ class AddNote extends React.Component {
           .context
           .folders
           .map(
-            (folder, i) => <option value={folder.id} key={i} id={folder.id}>{folder.name}</option>
+            (folder, i) => <option value={folder.id} key={i} id={folder.id}>{folder.folder_name}</option>
           );
 
         const nameError = this.validateNoteName();
@@ -208,9 +208,9 @@ class AddNote extends React.Component {
 AddNote.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        note_name: PropTypes.string.isRequired,
         modified: PropTypes.string.isRequired,
-        folderId: PropTypes.string.isRequired,
+        folder_id: PropTypes.string.isRequired,
         content: PropTypes.string.isRequired
     }))
   };

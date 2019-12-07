@@ -21,6 +21,9 @@ class NoteList extends React.Component {
                     .filter(note => note.folder_id == folderId);
         const notes = this.context.notes
         let noteList = {}
+        
+                
+        
 
         const noteListFolder = notesForFolder
                 .map(
@@ -62,7 +65,6 @@ class NoteList extends React.Component {
                    <Link to={'/add-note'} className="addNoteButton">
                     Add Note
                     </Link>
-                   
                 </ul>            
             </div>
         );
